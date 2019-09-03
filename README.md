@@ -7,3 +7,5 @@ docker run mccbryan.ops/tower-to-li:v2 -l liserver -t towerserver -j jobid -u ad
 # <h7> To see output
 
 docker run -it mccbryan.ops/tower-to-li:v2 -l liserver -t towerserver -j jobid -u admin -p password
+
+Script only spits out the output of the job events in json until uncommented
