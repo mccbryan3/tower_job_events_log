@@ -29,6 +29,7 @@ args = parser.parse_args()
 n_time = datetime.datetime.utcnow()
 p_time = n_time - datetime.timedelta(minutes=120)
 
+li_resturl = "http://" + li_server + ":9000/api/v1/messages/ingest/" + li_agent_id
 
 path = pathlib.Path('logs/job_ids')
 if path.is_file():
@@ -56,10 +57,10 @@ while twr_next:
     twr_next = response.json()['next']
     results += response.json()['results']
 
-# if results:
-    # f = open('logs/job_ids', 'a+')
-    # f.write(str(response.json()['results'][-1]['id']) + "\n")
-    # f.close()
+if results:
+    f = open('logs/job_ids', 'a+')
+    f.write(str(response.json()['results'][-1]['id']) + "\n")
+    f.close()
 
 for r in results:
     job_id = str(r['id'])
@@ -90,6 +91,6 @@ for r in results:
                 mod_time = (datetime.datetime.strptime(results[0][r], '%Y-%m-%dT%H:%M:%S.%fZ') - datetime.datetime(1970,1,1)).total_seconds()
         events = { "events": [{ "timestamp": mod_time, "fields": fields }] }
         events = json.dumps(events)
-        print(events + "\n\n")
-        # response = requests.post(li_resturl, events, verify=False )
-        # print(response.text)
+        # print(events + "\n\n")
+        response = requests.post(li_resturl, events, verify=False )
+        print(response.text)
