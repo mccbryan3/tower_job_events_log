@@ -27,7 +27,7 @@ twr_pass = args.twr_pass
 args = parser.parse_args()
 
 n_time = datetime.datetime.utcnow()
-p_time = n_time - datetime.timedelta(minutes=60)
+p_time = n_time - datetime.timedelta(minutes=120)
 
 
 path = pathlib.Path('logs/job_ids')
@@ -35,12 +35,12 @@ if path.is_file():
     f = open('logs/job_ids', 'r')
     last_id = f.readlines()[-1]
     f.close()
-    twr_api = "https://" + twr_server + "/api/v2/jobs/?id__gt=" + last_id
+    twr_url = "https://" + twr_server + "/api/v2/jobs/?id__gt=" + last_id
 else:
-    twr_api = "https://" + twr_server + "/api/v2/jobs/?created__gte=" + str(p_time)
+    twr_url = "https://" + twr_server + "/api/v2/jobs/?created__gte=" + str(p_time)
     
 headers = {"Accept":"application/json"}
-response = requests.get(twr_api, auth=(twr_user, twr_pass), headers=headers, verify=False )
+response = requests.get(twr_url, auth=(twr_user, twr_pass), headers=headers, verify=False )
 
 if response.status_code != 200: 
     print('Status:', response.status_code, 'Headers:', response.headers, 'Error Response:',response.json())
