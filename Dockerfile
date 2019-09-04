@@ -2,7 +2,7 @@ FROM centos:latest
 
 LABEL version="1.0" maintainer="mccbryan.ops@gmail.com"
 
-RUN  ["mkdir", "/twr_je_hvst"]
+RUN  ["mkdir", "/twr_je_hvst/logs", "-p"]
 COPY twr_je_hvst_li.py /twr_je_hvst/
 COPY get-pip.py /twr_je_hvst/
 
